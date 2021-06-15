@@ -12,8 +12,8 @@ def convert_mp3_to_wav(filepath):
     name = ''.join(random.choice(letters) for i in range(5))
     wav_file_name = name + ".wav"
     song = AudioSegment.from_mp3(filepath)
-    song.export(wav_file_name, format="wav")
-    return wav_features(wav_file_name)
+    song.export("Mov_Files/"+wav_file_name, format="wav")
+    return wav_features("Mov_Files/"+wav_file_name)
 
 
 def wav_features(filepath):
