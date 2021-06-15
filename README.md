@@ -5,8 +5,7 @@ This repository contains [Bradley Reardon](https://github.com/breardon7) and [Ha
 Our project objective was to apply an artifical neural network to a real world problem. For our project we applied preprocessing techniques and a multilayer perceptron to mp3 data to classify songs by genre.
 
 ## Data
-[Data Source 1](https://www.kaggle.com/tejasj/genre-prediction?select=dataset.csv)
-
+[Data Source 1](https://www.kaggle.com/tejasj/genre-prediction?select=dataset.csv)   
 [Data Source 2]()
 
 ## Folders
