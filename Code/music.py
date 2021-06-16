@@ -4,6 +4,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
@@ -18,12 +19,20 @@ sns.set(color_codes=True)
 # Read in dataset
 music_data = pd.read_csv('dataset.csv')
 
-# EDA
-print(music_data.shape)
+# Check df
+print('df shape', music_data.shape)
+print(music_data.head())
+print(music_data.describe)
+print('NA count', music_data.isna().sum())
 
-# Create df
+# Create new df
 new_music_data = music_data.copy()
 new_music_data.drop('filename', axis=1, inplace=True)
+
+# Histogram to check for distribution
+plt.hist(new_music_data['label'], bins = 30)
+plt.title('Target Distribution')
+plt.plot()
 
 # Label encode target
 le = preprocessing.LabelEncoder()
@@ -31,10 +40,13 @@ new_music_data['label'] = le.fit_transform(new_music_data['label'])
 print(new_music_data['label'].unique())
 new_music_data['label'].value_counts(normalize=True)
 
+# Check balance of target
+print(new_music_data.groupby('label').count())
+
 # Create train/test data
 X = new_music_data.drop('label', axis=1)
 y = new_music_data['label']
-X_train, X_test, y_train, y_test = train_test_split(test_size=0.2, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 # Standardize features
 scaler = StandardScaler()
