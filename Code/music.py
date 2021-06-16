@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -7,8 +9,8 @@ from sklearn import preprocessing
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
-
 from music_features import convert_mp3_to_wav, print_label
+warnings.filterwarnings('ignore')
 
 sns.set(color_codes=True)
 music_data = pd.read_csv('dataset.csv')
