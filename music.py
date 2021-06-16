@@ -6,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
+
 from music_features import convert_mp3_to_wav, print_label
 
 sns.set(color_codes=True)
@@ -24,13 +26,29 @@ scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=10000, learning_rate='adaptive', solver="sgd", activation="relu")
+
+print("============MLP CLASSIFIER=====================")
+mlp = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=10000, learning_rate='adaptive', solver="sgd",
+                    activation="relu")
 mlp.fit(X_train, y_train)
-data = convert_mp3_to_wav("Music_Sample/ucl_anthem.mp3")
-predictions = mlp.predict(data)
+prediction_data = convert_mp3_to_wav("Music_Sample/ucl_anthem.mp3")
+predictions = mlp.predict(prediction_data)
 best_prediction = predictions[np.argsort(predictions)[0]]
-print(best_prediction)
-# y_pred_report = np.full(len(y_train), prediction)
-# report = classification_report(predictions, y_train);
+best_predictions = np.argsort(predictions)[0:len(y_test)]
+prediction_report = []
+for i in best_predictions:
+    prediction_report.append(predictions[i])
 print(print_label(best_prediction))
-# print(classification_report(y_pred_report, y_train))
+print(classification_report(y_test, prediction_report))
+
+
+print("============DECISION TREE=====================")
+clf = DecisionTreeClassifier(criterion="gini")
+clf.fit(X_train, y_train)
+predictions2 = clf.predict(prediction_data)
+best_prediction2 = predictions2[np.argsort(predictions2)[0]]
+best_predictions2 = np.argsort(predictions2)[0:len(y_test)]
+prediction_report2 = []
+for i in best_predictions2:
+    prediction_report2.append(predictions2[i])
+print(classification_report(y_test, prediction_report2))
