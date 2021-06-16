@@ -11,8 +11,8 @@ def convert_mp3_to_wav(filepath):
     name = ''.join(random.choice(letters) for i in range(5))
     wav_file_name = name + ".wav"
     song = AudioSegment.from_mp3(filepath)
-    song.export("Mov_Files/"+wav_file_name, format="wav")
-    return wav_features("Mov_Files/"+wav_file_name)
+    song.export("Mov_Files/" + wav_file_name, format="wav")
+    return wav_features("Mov_Files/" + wav_file_name)
 
 
 def wav_features(filepath):
@@ -55,26 +55,22 @@ def wav_features(filepath):
 
 def print_label(prediction):
     if prediction == 0:
-        print("The Music is a Blues Genre")
+        return "The Music is a Blues Genre"
     if prediction == 1:
-        print("The Music is a Classical Genre")
+        return "The Music is a Classical Genre"
     if prediction == 2:
-        print("The Music is a Country Genre")
+        return "The Music is a Country Genre"
     if prediction == 3:
-        print("The Music is a Disco Genre")
+        return "The Music is a Disco Genre"
     if prediction == 4:
-        print("The Music is a Hip-Hop Genre")
+        return "The Music is a Hip-Hop Genre"
     if prediction == 5:
-        print("The Music is a Jazz Genre")
+        return "The Music is a Jazz Genre"
     if prediction == 6:
-        print("The Music is a Metal Genre")
+        return "The Music is a Metal Genre"
     if prediction == 7:
-        print("The Music is a Pop Genre")
+        return "The Music is a Pop Genre"
     if prediction == 8:
-        print("The Music is a Reggae Genre")
+        return "The Music is a Reggae Genre"
     if prediction == 9:
-        print("The Music is a Rock Genre")
-
-
-
-
+        return "The Music is a Rock Genre"
