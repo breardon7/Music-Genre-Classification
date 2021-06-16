@@ -11,23 +11,32 @@ from sklearn.tree import DecisionTreeClassifier
 from music_features import convert_mp3_to_wav, print_label
 
 sns.set(color_codes=True)
-df = pd.read_csv('dataset.csv')
-df1 = df.copy()
-df1.drop('filename', axis=1, inplace=True)
+music_data = pd.read_csv('dataset.csv')
+new_music_data = music_data.copy()
+new_music_data.drop('filename', axis=1, inplace=True)
 le = preprocessing.LabelEncoder()
-le.fit(df1['label'])
-df1['label'] = le.transform(df1['label'])
-df1['label'].unique()
-df1['label'].value_counts(normalize=True)
-X_train, X_test, y_train, y_test = train_test_split(df1.drop('label', axis=1), df1['label'], test_size=0.2,
-                                                    random_state=22)
+le.fit(new_music_data['label'])
+new_music_data['label'] = le.transform(new_music_data['label'])
+new_music_data['label'].unique()
+new_music_data['label'].value_counts(normalize=True)
+X_train, X_test, y_train, y_test = train_test_split(new_music_data.drop('label', axis=1), new_music_data['label'], test_size=0.2,
+                                                    random_state=1)
 
 scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
+print("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")
+mlp = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=10000, learning_rate='adaptive', solver="sgd",
+                    activation="relu")
+mlp.fit(X_train, y_train)
+prediction_data = convert_mp3_to_wav("Music_Sample/ucl_anthem.mp3")
+x_predictions = mlp.predict(X_test)
+print(classification_report(y_test, x_predictions))
 
-print("============MLP CLASSIFIER=====================")
+
+
+print("============PREDICT CUSTOM MP3 FILE WITH MLP CLASSIFIER=====================")
 mlp = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=10000, learning_rate='adaptive', solver="sgd",
                     activation="relu")
 mlp.fit(X_train, y_train)
