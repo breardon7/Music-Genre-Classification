@@ -106,25 +106,14 @@ class predict_music_genre_window(QDialog):
 
         # Locate best predictions & test predictions
         best_prediction = predictions[np.argsort(predictions, axis=None)[0]]
-        best_predictions = np.argsort(predictions)[0:len(y_test)]
-        prediction_report = []
-        for i in best_predictions:
-            prediction_report.append(predictions[i])
         self.result.appendPlainText(print_label(best_prediction))
-        self.result.appendPlainText(classification_report(y_test, prediction_report))
 
         # Predict using a Decision Tree Model
-        #self.result.appendPlainText("============PREDICT UPLOADED MPS WITH SKLEARN DECISION TREE=====================")
+        self.result.appendPlainText("============PREDICT UPLOADED MPS WITH SKLEARN DECISION TREE=====================")
         clf = DecisionTreeClassifier(criterion="gini")
         clf.fit(X_train, y_train)
-        predictions2 = clf.predict(prediction_data)
-        best_prediction2 = predictions2[np.argsort(predictions2, axis=None)[0]]
-        best_predictions2 = np.argsort(predictions2)[0:len(y_test)]
-        prediction_report2 = []
-        for i in best_predictions2:
-            prediction_report2.append(predictions2[i])
-        #self.result.appendPlainText(print_label(best_prediction2))
-        #self.result.appendPlainText(classification_report(y_test, prediction_report2))
+        predictions2 = clf.predict(X_test)
+        self.result.appendPlainText(classification_report(y_test, predictions2))
 
     def open(self):
         path = QFileDialog.getOpenFileName(self, 'Open a file', '', 'All Files (*.*)')
