@@ -60,6 +60,7 @@ class predict_music_genre_window(QDialog):
         new_music_data = music_data.copy()
         new_music_data.drop('filename', axis=1, inplace=True)
         self.figure.clear()
+
         # Histogram to check for distribution
         plt.hist(new_music_data['label'], bins=30)
         plt.title('Target Distribution')
