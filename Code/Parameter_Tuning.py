@@ -94,7 +94,7 @@ print(classification_report(y_test, x_predictions))
 print('Best parameters found:\n', clf.best_params_)
 
 # Convert mp3 files to wav file type
-path = 'C:\\Users\\brear\\OneDrive\\Desktop\\Grad School\\Music-Genre-Classification\\Code\\Music_Sample\\changes.mp3'
+path = 'Mov_Files/changes.mp3'
 features = convert_mp3_to_wav(path)
 
 # Predict unseen data
