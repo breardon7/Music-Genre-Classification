@@ -34,7 +34,7 @@ class predict_music_genre_window(QDialog):
         self.result.setFixedWidth(800)
         self.result.setFixedHeight(600)
         self.result.setDisabled(True)
-        self.result.setStyleSheet("color: white;  background-color: black; font-size:12pt")
+        self.result.setStyleSheet("color: white;  background-color: black; font-size:8pt")
         self.display_results()
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
@@ -60,6 +60,7 @@ class predict_music_genre_window(QDialog):
         new_music_data = music_data.copy()
         new_music_data.drop('filename', axis=1, inplace=True)
         self.figure.clear()
+
         # Histogram to check for distribution
         plt.hist(new_music_data['label'], bins=30)
         plt.title('Target Distribution')
@@ -87,8 +88,8 @@ class predict_music_genre_window(QDialog):
         X_test = scaler.transform(X_test)
 
         # Create network
-        mlp = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=10000, learning_rate='adaptive', solver="sgd",
-                            activation="relu")
+        mlp = MLPClassifier(hidden_layer_sizes=(60, 100, 60), max_iter=10000, learning_rate='invscaling', solver="adam",
+                            activation='tanh', alpha= 0.0001)
 
         # Test network
         self.result.appendPlainText("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")

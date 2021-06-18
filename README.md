@@ -6,7 +6,6 @@ Our project objective was to apply an artifical neural network to a real world p
 
 ## Data
 [Data Source 1](https://www.kaggle.com/tejasj/genre-prediction?select=dataset.csv)   
-[Data Source 2]()
 
 ## Folders
 * Code contains all of our code and data used in the project.
