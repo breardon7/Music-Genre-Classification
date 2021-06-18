@@ -1,8 +1,11 @@
 # Import necessary packages
 import warnings
+
+import librosa
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import librosa.display
 from PyQt5.QtWidgets import *
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -12,7 +15,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
-from music_features import convert_mp3_to_wav, print_label
+from music_features import convert_mp3_to_wav, print_label, generate_mov_wavelength
+
 pd.options.mode.chained_assignment = None
 warnings.filterwarnings('ignore')
 sns.set(color_codes=True)
@@ -61,10 +65,10 @@ class predict_music_genre_window(QDialog):
         new_music_data.drop('filename', axis=1, inplace=True)
         self.figure.clear()
 
-        # Histogram to check for distribution
-        plt.hist(new_music_data['label'], bins=30)
-        plt.title('Target Distribution')
-        plt.plot()
+        # Display audio wavelength
+        y, sr = generate_mov_wavelength(path)
+        plt.title('Monophonic Wavelength')
+        plt.plot(y)
         self.canvas.draw()
 
         # Label encode target
@@ -89,7 +93,7 @@ class predict_music_genre_window(QDialog):
 
         # Create network
         mlp = MLPClassifier(hidden_layer_sizes=(60, 100, 60), max_iter=10000, learning_rate='invscaling', solver="adam",
-                            activation='tanh', alpha= 0.0001)
+                            activation='tanh', alpha=0.0001)
 
         # Test network
         self.result.appendPlainText("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")

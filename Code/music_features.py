@@ -16,8 +16,12 @@ def convert_mp3_to_wav(filepath):
     return wav_features("Mov_Files/" + wav_file_name)
 
 
+def generate_mov_wavelength(filepath):
+    return librosa.load(filepath)
+
+
 def wav_features(filepath):
-    y, sr = librosa.load(filepath)
+    y, sr = generate_mov_wavelength(filepath)
     chroma_stft = np.array(librosa.feature.chroma_stft(y=y, sr=sr)[0])
     rmse = np.array(librosa.feature.rms(y=y)[0])
     spectral_centroid = np.array(librosa.feature.spectral_centroid(y, sr=sr)[0])
