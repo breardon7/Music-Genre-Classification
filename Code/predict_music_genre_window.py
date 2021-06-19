@@ -1,11 +1,8 @@
 # Import necessary packages
 import warnings
-
-import librosa
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import librosa.display
 from PyQt5.QtWidgets import *
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -16,7 +13,6 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 from music_features import convert_mp3_to_wav, print_label, generate_mov_wavelength
-
 pd.options.mode.chained_assignment = None
 warnings.filterwarnings('ignore')
 sns.set(color_codes=True)
@@ -35,10 +31,10 @@ class predict_music_genre_window(QDialog):
         self.formGroupBox = QGroupBox("PREDICT MUSIC GENRE")
         fileUploadBtn = QPushButton("Select mp3 File")
         self.result = QPlainTextEdit()
+        self.result.setDisabled(True)
         self.result.setFixedWidth(800)
         self.result.setFixedHeight(600)
-        self.result.setDisabled(True)
-        self.result.setStyleSheet("color: white;  background-color: black; font-size:8pt")
+        self.result.setStyleSheet("color: white;  background-color: black; font-size:12pt; line-height: 1.6;")
         self.display_results()
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
@@ -55,10 +51,10 @@ class predict_music_genre_window(QDialog):
         music_data = pd.read_csv('dataset.csv')
 
         #   Check df
-        self.result.setPlainText('Dataset Shape: ' + str(music_data.shape))
-        self.result.appendPlainText(music_data.head().to_string())
-        self.result.appendPlainText(str(music_data.describe))
-        self.result.appendPlainText('NA Count: ' + str(music_data.isna().sum()))
+        #print('Dataset Shape: ' + str(music_data.shape))
+        #print(music_data.head().to_string())
+        #print(str(music_data.describe))
+        #print('NA Count: ' + str(music_data.isna().sum()))
 
         # Create new df
         new_music_data = music_data.copy()
@@ -74,11 +70,11 @@ class predict_music_genre_window(QDialog):
         # Label encode target
         le = preprocessing.LabelEncoder()
         new_music_data['label'] = le.fit_transform(new_music_data['label'])
-        self.result.appendPlainText(str(new_music_data['label'].unique()))
+        #print(str(new_music_data['label'].unique()))
         new_music_data['label'].value_counts(normalize=True)
 
         # Check balance of target
-        self.result.appendPlainText(str(new_music_data.groupby('label').count()))
+        #print(str(new_music_data.groupby('label').count()))
 
         # Create train/test data
         X = new_music_data.drop('label', axis=1)
@@ -96,10 +92,11 @@ class predict_music_genre_window(QDialog):
                             activation='tanh', alpha=0.0001)
 
         # Test network
-        self.result.appendPlainText("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")
+
+        self.result.setPlainText("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")
         mlp.fit(X_train, y_train)
         x_predictions = mlp.predict(X_test)
-        self.result.setPlainText(classification_report(y_test, x_predictions))
+        self.result.appendPlainText(classification_report(y_test, x_predictions))
 
         # Convert mp3 files to wav file type
         features = convert_mp3_to_wav(path)
@@ -123,9 +120,10 @@ class predict_music_genre_window(QDialog):
     def open(self):
         path = QFileDialog.getOpenFileName(self, 'Open a file', '', 'All Files (*.*)')
         if path != ('', ''):
+            print(path)
             self.predict_music_genre(path[0])
 
     def display_results(self):
         layout = QFormLayout()
-        layout.addRow(QLabel("Prediction Results"), self.result)
+        layout.addRow(self.result)
         self.formGroupBox.setLayout(layout)
