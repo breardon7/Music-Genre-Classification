@@ -102,13 +102,12 @@ class predict_music_genre_window(QDialog):
         features = convert_mp3_to_wav(path)
 
         # Predict unseen data
-        prediction_data = features.iloc[150:]
+        prediction_data = features
         self.result.appendPlainText("============PREDICT UPLOADED MP3 FILE WITH MLP CLASSIFIER=====================")
-        predictions = mlp.predict(prediction_data)
+        prediction = mlp.predict(prediction_data)
 
         # Locate best predictions & test predictions
-        best_prediction = predictions[np.argsort(predictions, axis=None)[0]]
-        self.result.appendPlainText(print_label(best_prediction))
+        self.result.appendPlainText(print_label(prediction))
 
         # Predict using a Decision Tree Model
         self.result.appendPlainText("============PREDICT UPLOADED MPS WITH SKLEARN DECISION TREE=====================")
