@@ -68,7 +68,7 @@ mlp = MLPClassifier(max_iter=1000000)
 }'''
 
 parameter_space = {
-    'hidden_layer_sizes': [(60,100,60), (60,60,60), (70,20,70), (50,50,50)],
+    'hidden_layer_sizes': [(60,100,60),(28,50,28),(28,100,28),(28,20,28),(28,10,28)],
     'activation': ['tanh'],
     'solver': ['adam'],
     'alpha': [0.0001],
@@ -93,25 +93,7 @@ print(classification_report(y_test, x_predictions))
 # Best parameter set
 print('Best parameters found:\n', clf.best_params_)
 
-# Convert mp3 files to wav file type
-path = 'Mov_Files/changes.mp3'
-features = convert_mp3_to_wav(path)
 
-# Predict unseen data
-prediction_data = features.iloc[150:]
-print("============PREDICT UPLOADED MP3 FILE WITH MLP CLASSIFIER=====================")
-predictions = mlp.predict(prediction_data)
-
-# Locate best predictions & test predictions
-best_prediction = predictions[np.argsort(predictions, axis=None)[0]]
-print(print_label(best_prediction))
-
-# Predict using a Decision Tree Model
-print("============PREDICT UPLOADED MPS WITH SKLEARN DECISION TREE=====================")
-clf = DecisionTreeClassifier(criterion="gini")
-clf.fit(X_train, y_train)
-predictions2 = clf.predict(X_test)
-print(classification_report(y_test, predictions2))
 
 # Best Params
 '''Best parameters found:
