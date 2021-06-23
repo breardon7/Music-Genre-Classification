@@ -25,6 +25,6 @@ Our project objective was to apply an artifical neural network to a real world p
 * pandas
 * matplotlib
 
-2. When you run the main.py file, it opens a where you are required to select a .mp3 file of your choice.
+2. When you run the main.py file, it opens a window where you are required to select an .mp3 file of your choice.
 
-3. On file select, the model prediction begins and after training, the prediction results are displayed on the Canvas. The Monophonic waveform is also displayed.
+3. On file select, the model prediction begins and the results are displayed on the Canvas. The Monophonic waveform of the selected .mp3 file is also displayed.
