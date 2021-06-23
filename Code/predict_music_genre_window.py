@@ -13,6 +13,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 from music_features import convert_mp3_to_wav, print_label, generate_mov_wavelength
+
 pd.options.mode.chained_assignment = None
 warnings.filterwarnings('ignore')
 sns.set(color_codes=True)
@@ -51,10 +52,10 @@ class predict_music_genre_window(QDialog):
         music_data = pd.read_csv('dataset.csv')
 
         #   Check df
-        #print('Dataset Shape: ' + str(music_data.shape))
-        #print(music_data.head().to_string())
-        #print(str(music_data.describe))
-        #print('NA Count: ' + str(music_data.isna().sum()))
+        # print('Dataset Shape: ' + str(music_data.shape))
+        # print(music_data.head().to_string())
+        # print(str(music_data.describe))
+        # print('NA Count: ' + str(music_data.isna().sum()))
 
         # Create new df
         new_music_data = music_data.copy()
@@ -63,18 +64,18 @@ class predict_music_genre_window(QDialog):
 
         # Display audio wavelength
         y, sr = generate_mov_wavelength(path)
-        plt.title('Monophonic Wavelength')
+        plt.title('Monophonic Waveform')
         plt.plot(y)
         self.canvas.draw()
 
         # Label encode target
         le = preprocessing.LabelEncoder()
         new_music_data['label'] = le.fit_transform(new_music_data['label'])
-        #print(str(new_music_data['label'].unique()))
+        # print(str(new_music_data['label'].unique()))
         new_music_data['label'].value_counts(normalize=True)
 
         # Check balance of target
-        #print(str(new_music_data.groupby('label').count()))
+        # print(str(new_music_data.groupby('label').count()))
 
         # Create train/test data
         X = new_music_data.drop('label', axis=1)
@@ -92,7 +93,6 @@ class predict_music_genre_window(QDialog):
                             activation='tanh', alpha=0.0001)
 
         # Test network
-
         self.result.setPlainText("============PREDICT TEST SPLIT WITH MLP CLASSIFIER=====================")
         mlp.fit(X_train, y_train)
         x_predictions = mlp.predict(X_test)
