@@ -12,3 +12,19 @@ Our project objective was to apply an artifical neural network to a real world p
 * Proposal contains the proposal for the project.
 * Presentation contains a PowerPoint presentation of our project.
 * Report contains a report of our findings from this project.
+
+## Code Execution
+
+1.To successfully execute the code, make sure you have following libraries installed on your python interpreter enviroment:
+
+* skilearn 
+* pyqt5 
+* pydub 
+* librosa 
+* seaborn 
+* pandas
+* matplotlib
+
+2.When you run the main.py file, it opens a where you are required to select a .mp3 file of your choice.
+
+3.On file select, the model prediction begins and after training, the prediction results are displayed on the Canvas. The Monophonic waveform is also displayed.
