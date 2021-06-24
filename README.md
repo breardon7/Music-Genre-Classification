@@ -17,7 +17,7 @@ Our project objective was to apply an artifical neural network to a real world p
 
 1. To successfully execute the code, make sure you have following libraries installed on your python interpreter enviroment:
 
-* skilearn 
+* sklearn 
 * pyqt5 
 * pydub 
 * librosa 
